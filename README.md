@@ -155,7 +155,7 @@ UC (UNIDADE DE CONTROLE) -> É responsavel por receber instruções da memoria p
 
 MEMORIA -> A memoria, tambem chamada de memoria principal ou memoria de acesso aleatorio (RAM) contem todo o codigo e os dados nescessarios para execuçao de um programa. Quando um usuario executa um programa, seu codigo e dados são carregados na memoria, de onde a CPU acessa o conteudo uma instrução por vez
     LAYOUT BASE DE memoria
-    ```text
+```text
      ---------------------
     |                     |
     |       TEXT          | -> Instruções
@@ -212,85 +212,80 @@ USAREI UM LINUX COMO BASE, NO MEU CASO UM ARCH LINUX
             mov eax, 1 ; movendo numero da syscall 1 (exit)
             int 0x80
 ```
-    ASSEMBLER + LINKER
+ASSEMBLER + LINKER
 
-        nasm -f elf32 hello.asm -o hello.o 
-        ld -m elf_i386 hello.o -o hello -e _main
-        chmod +x hello 
-        ./hello 
-
-
+    nasm -f elf32 hello.asm -o hello.o 
+    ld -m elf_i386 hello.o -o hello -e _main
+    chmod +x hello 
+    ./hello 
 
 
-    ENDEREÇAMENTOS
+
+
+ENDEREÇAMENTOS
     
-        ENDEREÇAMENTO IMEDIATO
-        ```assembly
-            mov eax, 0xA``` -> Movendo 0xA (10) para eax
+ENDEREÇAMENTO IMEDIATO
+```assembly
+mov eax, 0xA ;-> Movendo 0xA (10) para eax
+```
+ENDEREÇAMENTO DIRETO POR REGISTRADOR
+```assembly
+mov ebx, eax ;-> Movendo o valor de eax para ebx 
+```
+SETANDO UM STACK FRAME
+```assembly
+mov ebp, esp ;-> Movendo topo da pilha para a base da pilha, assim setamos um stack frame
+push 0x5 ;-> exemplo movendo 0x5 para o endereço 0xFFC
+mov eax, [0xFFC] ;-> movendo para eax o valor que esta em 0xFFC 
 
-        ENDEREÇAMENTO DIRETO POR REGISTRADOR 
-            mov ebx, eax -> Movendo o valor de eax para ebx 
+```
 
-        SETANDO UM STACK FRAME
-        ```assembly
-            mov ebp, esp ```-> Movendo topo da pilha para a base da pilha, assim setamos um stack frame
-            ```assembly
-            push 0x5 ```-> exemplo movendo 0x5 para o endereço 0xFFC
-            ```assembly
-            mov eax, [0xFFC]``` -> movendo para eax o valor que esta em 0xFFC 
+ENDEREÇAMENTOS RELATIVOS
+```assembly
+mov eax, [rbx] ;-> movendo o conteudo da memoria começando até 4 bytes pois os 2 operandos precisam ter o mesmo tamanho
+```
+```assembly
+    section .data
+    message: db "Peterson",0xa,0xd
 
+    section .text 
+    mov eax, [message]  ;-> aqui seria movido os 4 primeiros bytes para eax ou seja Pete 
 
+    ; USANDO LEA (load effective address)
 
-        ENDEREÇAMENTOS RELATIVOS
-        ```assembly
-            mov eax, [rbx]``` -> movendo o conteudo da memoria começando até 4 bytes pois os 2 operandos precisam ter o mesmo tamanho
-            ```assembly
-            section .data
-                message: db "Peterson",0xa,0xd ```
+        lea eax, [ebx] ;-> nesse caso mesma coisa que mov eax,ebx   
 
-            ```assembly
-            section .text 
-                mov eax, [message] ``` -> aqui seria movido os 4 primeiros bytes para eax ou seja Pete 
+        mov eax, [message + ebx] ;-> copia o conteudo da memoria começando em message+ebx (copia 4 bytes)
+        lea eax, [message + ebx] ;-> seria a mesma coisa que fazer mov eax, message e depois add eax,ebx (copia o endereço dessa possição em especifico)
+```
+OU SEJA, VAMOS SUPOR QUE TEMOS UMA STRING
+```assembly
+    section .data 
+    nome, "Peter",0xa,0xd
 
-        USANDO LEA (load effective address)
-        ```assembly
-        lea eax, [ebx] ``` -> nesse caso mesma coisa que mov eax,ebx   
-
-        ```assembly
-        mov eax, [message + ebx] ``` -> copia o conteudo da memoria começando em message+ebx (copia 4 bytes)
-
-
-        ```assembly
-        lea eax, [message + ebx] ``` -> seria a mesma coisa que fazer mov eax, message e depois add eax,ebx (copia o endereço dessa possição em especifico)
-
-        OU SEJA, VAMOS SUPOR QUE TEMOS UMA STRING
-        ```assembly
-        section .data 
-            nome, "Peter",0xa,0xd
-
-        section .text 
-            mov rbx, 1
-            lea rax, [nome+rbx]
-        ```
+    section .text 
+    mov rbx, 1
+    lea rax, [nome+rbx]
+```
         
 
-        ---------------------------
-            endereços 
-            P = 1000
-            E = 1001
-            T = 1002
-            E = 1003
-            R = 1004
+    ---------------------------
+        endereços 
+        P = 1000
+        E = 1001
+        T = 1002
+        E = 1003
+        R = 1004
 
 
-            rax == nome+rbx (endereço de nome(byte onde começa a string + rbx que é 1, entao seria 1001)
+    rax == nome+rbx (endereço de nome(byte onde começa a string + rbx que é 1, entao seria 1001)
 
 
------------------------------------------------------------------------------------------------------
+    -------------------------------------------------------------------------------------------------------
 
 SESSÕES (sabemos que um computador não sabe diferenciar uma instrução de um dado, por isso usamos sessões)
     
-    ```assembly
+```assembly
     section .data ; -> aonde sera armazenado nossos dados inicializados (onde declaramos nossas variaveis)
 
     variavel: db "Hello World!",0xa,0xd
@@ -386,25 +381,25 @@ section .text
 ```
 JUMPS (SALTOS)
 
-tipos de saltos que temos
-    jmp -> salta sem testar condição 
-    je -> salta quando igual
-    jz -> salta quando for igual a zero
-    jne -> salta quando for diferente
-    jnz -> salta quando não for zero
-    ja -> salta quando for acima 
-    jae -> salta quando for acima ou igual 
-    jb -> salta quando for abaixo
-    jbe -> salta quando for abaixo ou igual 
-    jg -> salta quando for maior que 
-    jge -> salta quando for maior ou igual 
-    jl -> salta quando for menor 
-    jle -> salta quando for menor ou igual 
-    call -> chama função 
-    ret -> retorna da função
+    tipos de saltos que temos
+        jmp -> salta sem testar condição 
+        je -> salta quando igual
+        jz -> salta quando for igual a zero
+        jne -> salta quando for diferente
+        jnz -> salta quando não for zero
+        ja -> salta quando for acima 
+        jae -> salta quando for acima ou igual 
+        jb -> salta quando for abaixo
+        jbe -> salta quando for abaixo ou igual 
+        jg -> salta quando for maior que 
+        jge -> salta quando for maior ou igual 
+        jl -> salta quando for menor 
+        jle -> salta quando for menor ou igual 
+        call -> chama função 
+        ret -> retorna da função
 
 
-    Exemplo de uso de um JUMP 
+        Exemplo de uso de um JUMP 
 
 ```assembly 
 
@@ -486,7 +481,9 @@ CF (Carry Flag)
 SF(Sign Flag) 
 TF (Trap Flag) 
 OF (Overflow Flag)
-``` 
+```
+Acima vemos que os bits podem estar setados ou não setados, em uma arquiteturade 64 bits aonde teriamos RFLAGS so iriamos complementar a imagem ate a casa 63 totalizando 64 bits, mas lembre-se que os outros 32 bits são reservados
+
 Zero Flag -> Conhecido como ZF (Zero Flag) indica quando o resultado da ultima instrução executada foi zero. Por exemplo se uma intrução for executada subtraindo RAX de si mesma, o resultado sera 0. Nessa situação o ZF sera definido como 1.
 
 Carry Flag -> Conhecido como CF (Carry Flag) indica quando a ultima isntrução executada resultou em um numero muito grande ou muito pequeno para o destino. Por exemplo se sormarmos 0xFFFFFFFF e 0x00000111 e armazenarmos o resultado em um registrador de 32 bits, o resultado sera muito grande para nosso registrador, então o CF sera definido como 1.
@@ -523,3 +520,40 @@ Data Segment -> O registrador DS aponta para a seção de dados do programa na m
 Stack Segment -> O registrador SS aponta para a pilha do programa na memoria 
 
 Extra Segments (ES, FS e GS) -> Esses registradores de segmento extra apontam para diferentes seções de dados. Eles juntamente com o registrador DS, dividem a memoria do programa em4 seções de dados distintas
+
+
+
+Visão Geral da Memoria -> Quando um programa é carregado na memoria do sistema operacional Windows, ele enxerga apenas uma visão abstrata da memoria. Isso quer dizer que o programa não tem acesso a memoria inteira do sistema, e sim somente a parte de memoria que foi alocada pra ele. Essa memoria isolada é tudo que o programa precisa para funcionar, sem ter acesso direto a memoria de outros processos.
+
+```text
+
+             Main 
+            Memory
+    ----------------------
+    |                    |
+    |       STACK        |
+    |                    |
+    ----------------------
+    |                    |
+    |       HEAP         |
+    |                    |
+    ----------------------
+    |                    |
+    |                    |
+    |       CODE         |
+    |                    |
+    |                    |
+    ----------------------
+    |                    |
+    |       DATA         |
+    |                    |
+    ----------------------
+```
+
+Code (TEXT) → A seção de código, como o próprio nome sugere, armazena as instruções do programa. Em especial, ela corresponde à seção de texto de um arquivo executável portátil (PE), contendo as instruções que serão processadas pela CPU. Essa área da memória possui permissão de execução, o que significa que o processador está autorizado a executar diretamente os dados armazenados nela.
+
+Data → A seção de dados abriga informações inicializadas que não sofrem alteração durante a execução do programa. Ela está associada à seção de dados de um arquivo executável portátil e, normalmente, contém variáveis globais e outros elementos que devem permanecer constantes ao longo do funcionamento da aplicação.
+
+Heap → A Heap, também conhecida como memória dinâmica, é responsável por armazenar variáveis e estruturas alocadas e liberadas em tempo de execução. Quando uma variável é criada dinamicamente, o espaço necessário é reservado nessa região; ao ser removida, a memória é devolvida ao sistema. Por esse motivo, essa área recebe o nome de memória dinâmica.
+
+Stack → A Stack é uma das regiões mais relevantes da memória sob a perspectiva da análise de malware. Nela são armazenadas variáveis locais, parâmetros passados para funções e o endereço de retorno do processo ou função chamadora. Como esse endereço de retorno está diretamente ligado ao fluxo de execução do programa, a Stack torna-se um ponto crítico para análise e exploração.
