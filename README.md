@@ -468,11 +468,58 @@ section .text
 ```
 
 
-FLAGS
-
-    CF (Carry Flag)
-    ZF (Zero Flag)
-    SF (Sign Flag)
-    OF (OverFlow Flag)
+Registradores de Status Flag -> Ao executar um programa, as vezes é necessario indicar o seu estado. É ai que entram os Flags de status. Trata-se de um unico registrador de 32 bits para sistemas de 32 bits, chamado EFLAGS que é expandido para 64 e em sistemas 64 birs sendo denominado RFLAGS. O registrador de flags de status consiste em flags individuais de unico bit que podem ser 0 ou 1 Algumas flags necessarias são discutidas abaixo
 
 
+ABAIXO TEMOS O EXEMPLO DO EFLAGS (32 BITS)
+
+```text
+      --------------------------------------------------------------------------------------------------------------------------------------------------------------
+      |EFLAGS| 31 | 30 | 29 | 28 | 27 | 26 | 25 | 24 | 23 | 22 | 21 | 20 | 19 | 18 | 17 | 16 | 15 | 14  | 13  12 | 11 | 10 | 9 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+      |----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+      |      |  0   | 0 | 0 | 0  |  0 |  0  | 0 | 0 | 0  |  I  |  VI  | VI  |  A  |  V  |  R  | 0  | N  |   I O   | O  | D | I | T | S | Z | 0 | A | 0 | P | 1 | C |
+      |      |  0   | 0  | 0 | 0 |    |     |   |   |    |  D  |  P   |  F  |  C  |  M  |  F  |    | T  |   P L   | F  | F | F | F | F | F |   | F |   | F |   | F |
+      ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Zero Flag(ZF)
+CF (Carry Flag) 
+SF(Sign Flag) 
+TF (Trap Flag) 
+OF (Overflow Flag)
+``` 
+Zero Flag -> Conhecido como ZF (Zero Flag) indica quando o resultado da ultima instrução executada foi zero. Por exemplo se uma intrução for executada subtraindo RAX de si mesma, o resultado sera 0. Nessa situação o ZF sera definido como 1.
+
+Carry Flag -> Conhecido como CF (Carry Flag) indica quando a ultima isntrução executada resultou em um numero muito grande ou muito pequeno para o destino. Por exemplo se sormarmos 0xFFFFFFFF e 0x00000111 e armazenarmos o resultado em um registrador de 32 bits, o resultado sera muito grande para nosso registrador, então o CF sera definido como 1.
+
+Sign Flag -> Conhecido como SF (Sign Flag) indica se o resultado de uma operação é negativo ou se o bit mais significativo sera definido como 1. Se essas condições forem atendidas o registrador SF é definido como 1, caso o bit mais significativo esteja setado em 0 ou o resultado da operação seja positivo o SF é definido como 0 
+
+Trap Flag -> Conhecido como TF (Trap Flag) indica se o processador esta em modo de depuração. Quando o TF esta ativado, a CPU executara uma instrução por vez para fins de depuração. Isso podeser usado por malware para indentificar se ele esta sendo executado em um depurador
+
+
+
+```text 
+
+    ------------------------------------------------------------------------------------------------------------------------------------
+    |  Registradores Gerais   |   Registradores de Segmenta    |  Registrador de Status Flag  | Registrador de Ponteiro de Instruções  |
+    ------------------------------------------------------------------------------------------------------------------------------------
+    |  RAX, EAX, AX, AH, AL   |                 CS             |      RFLAFS, EFLAGS, FLAGS   |              RIP, EIP, IP              |
+    |  RBX, EBX, BX, BH, BL   |                 SS             |                              |                                        |
+    |  RCX, ECX, CX ,CH, CL   |                 DS             |                              |                                        |
+    |  RDX, EDX, DX, DH, DL   |                 ES             |                              |                                        |
+    |  RBP, EBP, BP           |                 FS             |                              |                                        |
+    |  RSP, ESP, SP           |                 GS             |                              |                                        |
+    |  RSI, ESI, SI           |                                |                              |                                        |
+    |  RDI, EDI, DI           |                                |                              |                                        |
+    |  R8 a R15               |                                |                              |                                        |
+    ------------------------------------------------------------------------------------------------------------------------------------
+```
+
+Registradores de Segmento -> Os registradores de segmento são registradores de 16 bits que convertem o espaço de memoria plano em diferentes segmentos para facilitar o endereçamento. Existem 6 registradores de segmento conforme explicado abaixo:
+
+Code Segment -> O registrador CS aponta para a seção de codigo na memoria 
+
+Data Segment -> O registrador DS aponta para a seção de dados do programa na memoria 
+
+Stack Segment -> O registrador SS aponta para a pilha do programa na memoria 
+
+Extra Segments (ES, FS e GS) -> Esses registradores de segmento extra apontam para diferentes seções de dados. Eles juntamente com o registrador DS, dividem a memoria do programa em4 seções de dados distintas
