@@ -623,7 +623,7 @@ Argumentos -> Os argumentos passados para uma função são colocados na pilha a
 Prologo e Epilogo da função -> Quando a uma chamada de função a stack é prepada para a execução da função. ou seja os argumentos são colocados na stack antes da função ser executada, logo depois o endereço de retorno e o ponteiro base antigo são colocados na stack, depois desses elementos colocados na stack o endereço do ponteiro baseé alterado para o topo da pilha (que sera o ponteiro de pilha que chamou a função naquele momento), A medida que a função é executada o ponteiro de pilha se move conforme as necessedidades da função. Essa parte do codigo que coloca os argumentos, o endereço de retorno e o ponteiro base na pilha e reorganiza a pilha e os ponteiros base é chamada de prologo da função  Da mesma forma que o pronteiro antigo é removido da pilja e movido para o ponteiro base quando a função termina. O endereço de retorno é movido para o ponteiro de instrução e o ponteiro de pilha é reorganizado para apontar para o topo da stack. A parte do codigo que executa essa ação é chamada de epilogo da função.
 
 Nesse exemplo a pilha cresce dos endereços maiores para endereços menores 
-
+```
 Endereços maiores
        ^             ----------------------
        |             |   Argumento 1      |
@@ -644,7 +644,7 @@ Endereços maiores
        | 
        ✓
 Endereços menores
-
+``
 Assembly é o nível mais baixo de linguagem que ainda é legível para humanos. Ao mesmo tempo, é o nível mais alto de linguagem para o qual um binário pode ser descompilado de forma confiável. No estudo de engenharia reversa de malware, entender os fundamentos de assembly é essencial, pois na maioria das vezes a amostra analisada é um binário já compilado. Nesses casos, não é possível visualizar o código na linguagem original utilizada pelo desenvolvedor, restando apenas a análise do código em nível de assembly.
 
 O código de um programa, da forma como é armazenado em disco e interpretado pela CPU, está em formato binário. Isso significa que o código é composto apenas por sequências de 0 e 1. Para facilitar a leitura, esses bits geralmente são agrupados em conjuntos de 8 bits, chamados de bytes, e representados em formato hexadecimal. Por exemplo, o número binário 10100101 pode ser dividido em dois grupos de 4 bits: 1010, que corresponde a A em hexadecimal, e 0101, que corresponde a 5 em hexadecimal, resultando no valor 0xA5.
