@@ -644,7 +644,7 @@ Endereços maiores
        | 
        ✓
 Endereços menores
-``
+```
 Assembly é o nível mais baixo de linguagem que ainda é legível para humanos. Ao mesmo tempo, é o nível mais alto de linguagem para o qual um binário pode ser descompilado de forma confiável. No estudo de engenharia reversa de malware, entender os fundamentos de assembly é essencial, pois na maioria das vezes a amostra analisada é um binário já compilado. Nesses casos, não é possível visualizar o código na linguagem original utilizada pelo desenvolvedor, restando apenas a análise do código em nível de assembly.
 
 O código de um programa, da forma como é armazenado em disco e interpretado pela CPU, está em formato binário. Isso significa que o código é composto apenas por sequências de 0 e 1. Para facilitar a leitura, esses bits geralmente são agrupados em conjuntos de 8 bits, chamados de bytes, e representados em formato hexadecimal. Por exemplo, o número binário 10100101 pode ser dividido em dois grupos de 4 bits: 1010, que corresponde a A em hexadecimal, e 0101, que corresponde a 5 em hexadecimal, resultando no valor 0xA5.
