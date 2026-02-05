@@ -155,7 +155,7 @@ UC (UNIDADE DE CONTROLE) -> É responsavel por receber instruções da memoria p
 
 MEMORIA -> A memoria, tambem chamada de memoria principal ou memoria de acesso aleatorio (RAM) contem todo o codigo e os dados nescessarios para execuçao de um programa. Quando um usuario executa um programa, seu codigo e dados são carregados na memoria, de onde a CPU acessa o conteudo uma instrução por vez
     LAYOUT BASE DE memoria
-    ```text
+  ```
      ---------------------
     |                     |
     |       TEXT          | -> Instruções
@@ -496,6 +496,7 @@ Acima vemos que os bits podem estar setados ou não setados, em uma arquiteturad
 Zero Flag -> Conhecido como ZF (Zero Flag) indica quando o resultado da ultima instrução executada foi zero. Por exemplo se uma intrução for executada subtraindo RAX de si mesma, o resultado sera 0. Nessa situação o ZF sera definido como 1.
 
 Carry Flag -> Conhecido como CF (Carry Flag) indica quando a ultima instrução executada resultou em um numero muito grande ou muito pequeno para o destino. Por exemplo se sormarmos 0xFFFFFFFF e 0x00000111 e armazenarmos o resultado em um registrador de 32 bits, o resultado sera muito grande para nosso registrador, então o CF sera definido como 1, ou seja segnifica que ocorreu um overflow sem sinal.
+
     255 + 1 -> 256 
         CF -> 1
       111 -> 3 bits 
@@ -504,39 +505,43 @@ Carry Flag -> Conhecido como CF (Carry Flag) indica quando a ultima instrução 
      1100 -> 4 bits (overflow sem sinal acionando o CF)
         CF -> 1
 
-Parity Flag -> Conhecido como PF é ativada se o ultimo byte do resultado tiver um numero par de bits "1". Contamos quantos 1 existem no byte final 
+Parity Flag -> Conhecido como PF é ativada se o ultimo byte do resultado tiver um numero par de bits "1". Contamos quantos 1 existem no byte final.
+
     Se for par -> PF = 1 
     Se for impar -> PF = 0
-
     10101010 -> 4 bits "1"
     PF -> 1 
     10101011 -> 5 bits "1"
     PF -> 0
 
-Auxiliary Flag -> Conhecida como AF é ativada quando ha um "vai-um" ou emprestismo do bit 3 para o bit 4 (usada em aritmetica BCD). Serve para calculos com numeros decimais codificados em binarios (BCD). Quase não é usada hoje em dia 
+Auxiliary Flag -> Conhecida como AF é ativada quando ha um "vai-um" ou emprestismo do bit 3 para o bit 4 (usada em aritmetica BCD). Serve para calculos com numeros decimais codificados em binarios (BCD). Quase não é usada hoje em dia.
+
     9 + 1 = 10 (Em BCD) 
     AF = 1
 
 Sign Flag -> Conhecido como SF (Sign Flag) indica se o resultado de uma operação é negativo ou se o bit mais significativo sera definido como 1. Se essas condições forem atendidas o registrador SF é definido como 1, caso o bit mais significativo esteja setado em 0 ou o resultado da operação seja positivo o SF é definido como 0.
+
     SF = 1 -> negativo 
     SF = 0 -> positivo 
 
-Trap Flag -> Conhecido como TF (Trap Flag) indica se o processador esta em modo de depuração. Quando o TF esta ativado, a CPU executara uma instrução por vez para fins de depuração. Isso podeser usado por malware para indentificar se ele esta sendo executado em um depurador
+Trap Flag -> Conhecido como TF (Trap Flag) indica se o processador esta em modo de depuração. Quando o TF esta ativado, a CPU executara uma instrução por vez para fins de depuração. Isso podeser usado por malware para indentificar se ele esta sendo executado em um depurador.
 
 Overflow Flag -> Conhecido como OF (Overflow Flag) -> indica quando a ultima instrução resultou em um overflow porem com sinal, ou seja segue a mesma ideia do carry flag, porem o carry flag ocorre sem sinal, ja o overflow flag ocorre com sinal.
+
     OF = 1 -> Ocorreu um overflow com sinal 
     OF = 0 -> Não ocorreu um overflow com sinal 
     127 + 1 = - 128 (Em 8 bits com sinal)
         OF = 1
 
 Direction Flag -> conhecido como DF ela determina a direção das instruções de manipulação de strings 
+
     DF = 0 -> Processa da esquerda para direita 
     DF = 1 -> Processa da direita para a esquerda 
-    
     DF = 0 -> Incrementa ponteiro 
     DF = 1 -> Decrementa ponteiro 
 
-Interrupt Enable Flag -> Conhecido como IF se ativada permite interrupções de hardware
+Interrupt Enable Flag -> Conhecido como IF se ativada permite interrupções de hardware.
+
     IF = 1 -> CPU pode ser interrompida
     IF = 0 -> Interrupções desativadas
 
