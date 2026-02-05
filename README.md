@@ -212,7 +212,7 @@ USAREI UM LINUX COMO BASE, NO MEU CASO UM ARCH LINUX
             mov eax, 1 ; movendo numero da syscall 1 (exit)
             int 0x80
 ```
-    ASSEMBLER + LINKER
+  ASSEMBLER + LINKER
 
         nasm -f elf32 hello.asm -o hello.o 
         ld -m elf_i386 hello.o -o hello -e _main
@@ -222,7 +222,7 @@ USAREI UM LINUX COMO BASE, NO MEU CASO UM ARCH LINUX
 
 
 
-    ENDEREÇAMENTOS
+  ENDEREÇAMENTOS
     
         ENDEREÇAMENTO IMEDIATO
         ```assembly
@@ -290,7 +290,6 @@ USAREI UM LINUX COMO BASE, NO MEU CASO UM ARCH LINUX
 
 SESSÕES (sabemos que um computador não sabe diferenciar uma instrução de um dado, por isso usamos sessões)
     
-    ```assembly
     section .data ; -> aonde sera armazenado nossos dados inicializados (onde declaramos nossas variaveis)
 
     variavel: db "Hello World!",0xa,0xd
@@ -311,18 +310,16 @@ SESSÕES (sabemos que um computador não sabe diferenciar uma instrução de um 
         mov rdx, 14 
         syscall
 
-```
 LABELS (ROTULOS)
-
-    Rotulos são usados para rotular instruções, assim nao precisamos chamar o endereço de memoria daquela instrução e sim apenas seu rotulo 
+Rotulos são usados para rotular instruções, assim nao precisamos chamar o endereço de memoria daquela instrução e sim apenas seu rotulo 
     Usamos a sintax rotulo:
 
-    exemplos usados acima
-    variavel:
-    name:
-    _main:
+      exemplos usados acima
+      variavel:
+      name:
+      _main:
 
-
+    
 DIRETIVAS
     Alem de dados e instruções temos o que mas chamamos de diretivas, exemplo quando usamos variavel: db "Oi"
     db é a nossa diretiva, nesse cado pedindo para despejar os bytes equivalentes a Oi no nosso rotulo
